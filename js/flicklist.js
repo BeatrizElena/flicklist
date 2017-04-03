@@ -9,7 +9,7 @@ var model = {
 var api = {
 
   root: "https://api.themoviedb.org/3",
-  token: "TODO", // TODO 0 add your api key
+  token: "8e888fa39ec243e662e1fb738c42ae99", // TODO 0 add your api key
 
   /**
    * Given a movie object, returns the url to its poster image
@@ -17,8 +17,9 @@ var api = {
   posterUrl: function(movie) {
     // TODO 4b
     // implement this function
+    var imageUrl = "http://image.tmdb.org/t/p/w300/";
 
-    return "http://images5.fanpop.com/image/photos/25100000/movie-poster-rapunzel-and-eugene-25184488-300-450.jpg" 
+    return imageUrl + movie.poster_path;
   }
 }
 
@@ -81,19 +82,35 @@ function render() {
     // TODO 1 
     // add an "I watched it" button and append it below the title
     // Clicking should remove this movie from the watchlist and re-render
-
+	var buttonWatched = $("<button></button>")
+      .text("I watched it")
+      .attr("class", "btn btn-danger btn-block")
+      .click(function() {
+        model.watchlistItems.splice(model.watchlistItems.indexOf(movie), 1);
+        render();
+      });
+// 	$("#section-watchlist ul").append(buttonWatched); 
     // TODO 2i
     // apply the classes "btn btn-danger" to the "I watched it button"
-
+// 	buttonWatched.attr("class", "btn btn-danger btn-block");
     // TODO 4a
     // add a poster image and append it inside the 
     // panel body above the button
-
+	var poster = $("<img>")
+		.attr({src: api.posterUrl(movie), class: "img-responsive"})
+	var panelHeading = $("<div class='panel-heading'></div>")
+		.text(movie.title)
+	var panelBody = $("<div></div>")
+		.attr("class", "panel-body")
+		.append(poster)
+		.append(buttonWatched)
     // TODO 2g
     // re-implement the li as a bootstrap panel with a heading and a body
     var itemView = $("<li></li>")
-      .append(title)
-      .attr("class", "item-watchlist");
+//       .append(title)
+      .append(panelHeading)
+      .append(panelBody)
+      .attr("class", "panel panel-default");
 
     $("#section-watchlist ul").append(itemView);
   });
@@ -109,7 +126,7 @@ function render() {
 
     var title = $("<h4></h4>").text(movie.original_title);
 
-    var button = $("<button></button>")
+    var button = $("<button class='btn btn-primary'></button>")
       .text("Add to Watchlist")
       .click(function() {
         model.watchlistItems.push(movie);
@@ -120,7 +137,7 @@ function render() {
     var overview = $("<p></p>").text(movie.overview);
 
     // append everything to itemView, along with an <hr/>
-    var itemView = $("<li></li>")
+    var itemView = $("<li class='list-group-item'></li>")
       .append(title)
       .append(overview)
       .append(button);
@@ -137,3 +154,22 @@ function render() {
 $(document).ready(function() {
   discoverMovies(render);
 });
+
+    // TODO 2g
+    // re-implement the li as a bootstrap panel with a heading and a body
+//     <div class="panel panel-default">
+//   <!-- Default panel contents -->
+//   <div class="panel-heading">Panel heading</div>
+//   <div class="panel-body">
+//     <p>...</p>
+//   </div>
+// 
+//   <!-- List group -->
+//   <ul class="list-group">
+//     <li class="list-group-item">Cras justo odio</li>
+//     <li class="list-group-item">Dapibus ac facilisis in</li>
+//     <li class="list-group-item">Morbi leo risus</li>
+//     <li class="list-group-item">Porta ac consectetur ac</li>
+//     <li class="list-group-item">Vestibulum at eros</li>
+//   </ul>
+// </div>
