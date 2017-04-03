@@ -93,12 +93,21 @@ function discoverMovies(callback) {
  * the callback function that was passed in
  */
 function searchMovies(searchTerm, callback) {
-  console.log("searching for movies with '" + searchTerm + "' in their title...");
+// 	console.log("searching for movies with '" + searchTerm + "' in their title...");
 
-  // TODO 9
-  // implement this function as described in the comment above
-  // you can use the body of discoverMovies as a jumping off point
-
+  // TODO 9: implement this function as described in the comment above
+  // (use the body of discoverMovies as a jumping off point)
+	$.ajax({
+		url: api.root + "/search/movie",
+		data: {
+			api_key: api.token,
+			query: searchTerm
+		},
+		success: function(render) {
+			model.browseItems = render.results;
+			callback(render);
+		}
+	});
 
 }
 
@@ -118,7 +127,7 @@ function render() {
     var itemView = $("<li></li>")
       .append(title);
       // TODO 3: give itemView a class attribute of "item-watchlist"
-      $("itemView").addClass("item-watchlist");
+      itemView.attr("class", "item-watchlist");
 
     $("#section-watchlist ul").append(itemView);
   });

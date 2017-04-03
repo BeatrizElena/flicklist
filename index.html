@@ -30,9 +30,9 @@
       <!-- 
       TODO 6: add a <form> here for users to search for movies by title 
       -->
-      <form id=""browse-movies">
+      <form id="form-search">
       	<input type="text" name="searchByTitle"></input>
-      	<button class="btn">Search By Title</button>
+      	<input type="submit" value="Search By Title"></input>
       </form>
 
     </header>
@@ -45,19 +45,19 @@
   <script>
     // TODO 8
     // fill in the missing pieces of the code below
-
-    $("TODO 8a").submit(function(evt) {
-
+// 	8a: jQuery selector
+//     $(document).ready(function(){
+    	$("#form-search").submit(function(evt) {
       // first, we cancel the default action (which would leave the page)
-      evt.preventDefault();
-
+      	evt.preventDefault();
       // figure out what the user typed
-      var searchTerm = $("TODO 8b").val();
-
+//       8b: grab user input
+		var searchTerm = $('#form-search input[name=searchByTitle]').val();
       // TODO 8c invoke the searchMovies function,
       // passing in the search term, and render as the callback
-
+		searchMovies(searchTerm, render);
     });
+//     });
   </script>
 
 </body> 

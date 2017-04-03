@@ -21,6 +21,9 @@ Hint: just apply the style using a parent selector, and then all
 descendent elements will automatically inherit the same styles
 */
 
+body {
+	color: gray;
+}
 
 #big-header {
 	background: gray;
@@ -51,6 +54,9 @@ ul {
 
 button, input[type="submit"] {
 	border-width: 0px;
+	color: white;
+	background: #ffa500;
+	padding: 10px;
 	/*
 	TODO 7
 	give these buttons some padding, and color them orange with white text
@@ -60,3 +66,13 @@ button, input[type="submit"] {
 button:disabled {
 	opacity: 0.5;
 }
+
+.item-watchlist {
+	background: #ffa500;
+	color: white;
+	display: inline-block;
+	padding: 25px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
+
