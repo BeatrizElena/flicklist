@@ -2,7 +2,8 @@
 
 var model = {
   watchlistItems: [],
-  browseItems: []
+  browseItems: [],
+  activeMovieIndex: 0,
 
   // TODO 
   // add a property for the current active movie index
@@ -84,7 +85,9 @@ function render() {
   // clear everything
   $("#section-watchlist ul").empty();
   $("#section-browse ul").empty();
-
+  $(".carousel-inner").empty();
+  var activeMovie = model.browseItems[model.activeMovieIndex]; //Problem may be in this line.
+  console.log("activeMovie is: ", activeMovie);
   // render watchlist items
   model.watchlistItems.forEach(function(movie) {
     var title = $("<h6></h6>").text(movie.original_title);
@@ -121,29 +124,42 @@ function render() {
 
     $("#section-watchlist ul").append(itemView);
   });
+// end of model.watchlistItems.forEach(function(movie). Still inside render() fx.
+  
 
-  // render browse items
-  model.browseItems.forEach(function(movie) {
-    var title = $("<h4></h4>").text(movie.original_title);
-    var overview = $("<p></p>").text(movie.overview);
+//   my code from here
+// todos 5b and 5c
+  $("#browse-info h4").empty();
+  $("#browse-info hr").remove();
+  $("#browse-info p").empty();
+  
+  // var activeMovie = model.browseItems[model.activeMovieIndex]; //Problem may be in this line.
+//   console.log("activeMovie is: ", activeMovie);
+  var title = $("<h4></h4>").text(activeMovie.original_title);
+  var overview = $("<p></p>").text(activeMovie.overview);
+  var hr = $("<hr/>");
+  var itemView = $("#browse-info")
+  .append( [title, hr, overview] );
+ 
+//  todo 5d: Add to Watchlist button******PROBLEM: Adding too many movies to Watch List
+  $("#add-to-watchlist").click(function() {
+    	var test = model.watchlistItems.push(activeMovie);
+    	console.log("This activeMovie is being pushed to array: ", test);
+    	render();
+    })
+    .prop("disabled", model.watchlistItems.indexOf(activeMovie) !== -1);
 
-    // button for adding to watchlist
-    var button = $("<button></button>")
-      .text("Add to Watchlist")
-      .attr("class", "btn btn-primary")
-      .click(function() {
-        model.watchlistItems.push(movie);
-        render();
-      })
-      .prop("disabled", model.watchlistItems.indexOf(movie) !== -1);
-
-    var itemView = $("<li></li>")
-      .attr("class", "list-group-item")
-      .append( [title, overview, button] );
-      
-    // append the itemView to the list
-    $("#section-browse ul").append(itemView);
+// todo 5e: fill carousel with movie poster images
+  var posters = model.browseItems.map(function(movie) {
+  	var poster = $("<img></img>")
+  		.attr("src", api.posterUrl(movie))
+  		.attr("class", "img-responsive");
+  	
+  	return $("<li class='item'></li>")
+  	  .append(poster);
   });
+  $("#section-browse .carousel-inner").append(posters);
+  posters[model.activeMovieIndex].addClass("active");
 }
 
 
@@ -152,3 +168,27 @@ function render() {
 $(document).ready(function() {
   discoverMovies(render);
 });
+
+
+  // render browse items
+ //  model.browseItems.forEach(function(movie) {
+//     var title = $("<h4></h4>").text(movie.original_title);
+//     var overview = $("<p></p>").text(movie.overview);
+// 
+//     // button for adding to watchlist
+//     var button = $("<button></button>")
+//       .text("Add to Watchlist")
+//       .attr("class", "btn btn-primary")
+//       .click(function() {
+//         model.watchlistItems.push(movie);
+//         render();
+//       })
+//       .prop("disabled", model.watchlistItems.indexOf(movie) !== -1);
+// 
+//     var itemView = $("<li></li>")
+//       .attr("class", "list-group-item")
+//       .append( [title, overview, button] );
+//       
+//     // append the itemView to the list
+//     $("#section-browse ul").append(itemView);
+//   });
